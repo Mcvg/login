@@ -2,17 +2,17 @@ const express = require('express');
 const router = express.Router();
 
 // Controllers
-const loginController = require('../controllers/user');
+const userController = require('../controllers/user');
 
 // Utils
-const {username, password} = require('../utils/parameter.validator');
+const { username, password } = require('../utils/parameter.validator');
 
 // Validation params
-const validations = [
-  username('username'),
-  password('password'),
-];
+const validationsCreate = [username('username'), password('password')];
 
-router.post('/login', validations, loginController.sum);
+router.get('/', userController.detail);
+router.post('/create', validationsCreate, userController.create);
+//router.patch('/:id/update', validationsCreate, userController.update);
+//router.delete('/deactivate', validations, userController.deactivate);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
- const username = (parameter) => {
+const username = (parameter) => {
   return body(parameter)
     .exists()
     .withMessage(`The value ${parameter} is required`)
@@ -15,10 +15,11 @@ const password = (parameter) => {
     .exists()
     .withMessage(`The value ${parameter} is required`)
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'gm')
-    .withMessage(`The value ${parameter} must be a valid password`)
+    .withMessage(
+      `The value ${parameter} must be a valid password, with numbers, letters, special characters and at least 8 characters`
+    )
     .trim()
     .escape();
 };
 
-
-module.exports = {username, password};
+module.exports = { username, password };

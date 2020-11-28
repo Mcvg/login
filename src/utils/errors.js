@@ -1,4 +1,4 @@
-const validatorError = () => {
+const validatorError = (errorList) => {
   const requestError = new Error('Validation failed');
   requestError.statusCode = 422;
   requestError.data = errorList.array();

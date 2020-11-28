@@ -1,25 +1,40 @@
 const { validationResult } = require('express-validator');
 const { validatorError, serverError } = require('../utils/errors');
+const User = require('../modules/user');
 
-exports.sum = (req, res, next) => {
-  buildOperationProcess(req, res, 'Sum');
-};
-
-const buildOperationProcess = (req, res, operationType) => {
-  validateParams(req);
+exports.detail = (req, res, next) => {
   try {
-    sendResponse(res);
+    User.find({}, (err, users) => {
+      if (err) return err;
+
+      res.send(users);
+    });
   } catch (e) {
     serverError(e);
   }
 };
 
+exports.create = (req, res, next) => {
+  validateParams(req);
+
+  let user = new User({
+    username: req.body.username,
+    password: req.body.password,
+  });
+
+  user.save(function (err) {
+    if (err) console.log(err);
+
+    sendSuccessfullyResponse(res, 'User created successfully.');
+  });
+};
+
 const validateParams = (req) => {
   const errorList = validationResult(req);
   if (!errorList.isEmpty()) {
-    validatorError();
+    validatorError(errorList);
   }
 };
 
-const sendResponse = (res) =>
-  res.status(201).json({ data: operationResult, message: 'User login succesfully!' });
+const sendSuccessfullyResponse = (res, message) =>
+  res.status(201).json({ message });
