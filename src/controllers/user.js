@@ -29,6 +29,24 @@ exports.create = (req, res, next) => {
   });
 };
 
+exports.update = (req, res, next) => {
+  User.findByIdAndUpdate(
+    req.params.id,
+    { $set: req.body },
+    function (err, user) {
+      if (err) return err;
+      res.send('User updated successfully.');
+    }
+  );
+};
+
+exports.deactivate = (req, res, next) => {
+  User.findByIdAndDelete(req.params.id, function (err) {
+    if (err) return err;
+    res.send('Product removed successfully.');
+  });
+};
+
 const validateParams = (req) => {
   const errorList = validationResult(req);
   if (!errorList.isEmpty()) {

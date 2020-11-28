@@ -12,7 +12,7 @@ const validationsCreate = [username('username'), password('password')];
 
 router.get('/', userController.detail);
 router.post('/create', validationsCreate, userController.create);
-//router.patch('/:id/update', validationsCreate, userController.update);
-//router.delete('/deactivate', validations, userController.deactivate);
+router.patch('/:id/update', validationsCreate, userController.update);
+router.delete('/:id/deactivate', userController.deactivate);
 
 module.exports = router;
